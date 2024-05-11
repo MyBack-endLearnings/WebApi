@@ -32,5 +32,33 @@ namespace WebApi.Controllers
             }
             return Ok(result);
         }
+        [HttpPost]
+        public async Task<IActionResult> Create(Product product)
+        {
+            Product result = await _productRepository.CreateAsync(product);
+            return Created($"/api/products/{product.Id}", result);
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(Product product)
+        {
+            Product checkProduct = await _productRepository.GetByIdAsync(product.Id);
+            if (checkProduct == null)
+            {
+                return NotFound();
+            }
+            await _productRepository.UpdateAsync(product);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Product checkProduct = await _productRepository.GetByIdAsync(id);
+            if (checkProduct == null)
+            {
+                return NotFound();
+            }
+            await _productRepository.RemoveAsync(id);
+            return NoContent();
+        }
     }
 }
