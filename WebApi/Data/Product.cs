@@ -10,5 +10,7 @@ namespace WebApi.Data
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public int Stock { get; set;}
         public string ImagePath { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using WebApi.Interfaces;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -69,7 +71,7 @@ namespace WebApi.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> Upload(IFormFile formFile)
         {
-            string fileName = Guid.NewGuid().ToString() + "." + Path.GetExtension(formFile.FileName);
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName);
             string path = Path.Combine(_env.WebRootPath, fileName);
             using (FileStream fileStream = new FileStream(path, FileMode.Create))
             {
